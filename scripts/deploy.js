@@ -1,3 +1,4 @@
+const fs = require("fs");
 const hre = require("hardhat");
 const { ethers } = hre;
 
@@ -11,6 +12,17 @@ main = async () => {
   const ethPool = await ETHPool.deploy(team.address);
   await ethPool.deployed();
   console.log("ETHPool deployed at", ethPool.address);
+
+  fs.writeFileSync(
+    "publish/" + process.env.HARDHAT_NETWORK + ".json",
+    JSON.stringify(
+      {
+        ethPool: ethPool.address,
+      },
+      null,
+      2
+    )
+  );
 };
 
 // We recommend this pattern to be able to use async/await everywhere
